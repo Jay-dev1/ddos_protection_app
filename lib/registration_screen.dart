@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,33 +13,38 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> registerUser(String email, String password) async {
-    try {
-      final url = 'https://ddos-protection-ibidrtsie-jays-projects-319a96dd.vercel.app/api/users/register';
-      final response = await http.post(
-        Uri.parse(url),
-        body: {
-          'email': email,
-          'password': password,
-        },
-        headers: {
-          // Add headers if required, e.g., Authorization token
-          // 'Authorization': 'Bearer your-auth-token',
-        },
-      );
+  // Replace 'your-vercel-project.vercel.app' with your actual Vercel project URL
+  String apiUrl = 'https://ddos-protection-3ekr9vr94-jays-projects-319a96dd.vercel.app/users/register';
 
-      if (response.statusCode == 200) {
-        print('User registered successfully');
-        // Navigate to success screen or handle successful registration
-      } else {
-        print('Failed to register user: ${response.statusCode}');
-        // Handle error, show error message, etc.
-      }
-    } catch (e) {
-      print('Error registering user: $e');
-      // Handle network errors or other exceptions
+  try {
+    // Make POST request to register user
+    var response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    // Handle response based on status code
+    if (response.statusCode == 200) {
+      // Registration successful
+      print('User registered successfully!');
+
+      // Example: You might handle navigation or show a success message
+    } else {
+      // Handle other status codes (e.g., 401 for authentication issues)
+      print('Failed to register user: ${response.statusCode}');
+      print('Response body: ${response.body}');
     }
+  } catch (e) {
+    // Handle network errors or exceptions
+    print('Error registering user: $e');
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

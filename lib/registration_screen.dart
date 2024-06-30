@@ -12,7 +12,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Future<void> registerUser(String email, String password) async {
     try {
-      final url = 'https://ddos-protection-app-two.vercel.app/api/users/register';
+      final url = 'https://ddos-protection-ldta8fmka-jays-projects-319a96dd.vercel.app/api/users/register';
       final response = await http.post(
         Uri.parse(url),
         body: {

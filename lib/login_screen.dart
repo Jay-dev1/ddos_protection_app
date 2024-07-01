@@ -12,7 +12,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> loginUser(String email, String password) async {
     try {
-      final url = 'https://ddos-protection-ldta8fmka-jays-projects-319a96dd.vercel.app/api/users/login';
+      final url = 'https://ddos-protection-app-git-main-jays-projects-319a96dd.vercel.app/api/users/login';
       final response = await http.post(
         Uri.parse(url),
         body: {

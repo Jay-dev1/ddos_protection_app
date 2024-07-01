@@ -1,6 +1,13 @@
-// Example ipBlacklist.js
-const blacklistedIPs = new Set(['127.0.0.1', '1.2.3.4']);
+const blacklistedIps = ['123.45.67.89']; // Example blacklisted IPs
 
-export default function isIPBlacklisted(ip) {
-  return blacklistedIPs.has(ip);
-}
+const ipBlacklist = (req, res, next) => {
+  const clientIp = req.ip;
+
+  if (blacklistedIps.includes(clientIp)) {
+    return res.status(403).send('Your IP is blacklisted');
+  }
+
+  next();
+};
+
+module.exports = ipBlacklist;

@@ -13,7 +13,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
  Future<void> registerUser(String email, String password) async {
-  String apiUrl = 'https://ddos-protection-app-git-main-jays-projects-319a96dd.vercel.app/api/users/register';
+  String apiUrl = 'https://ddos-protection-app-git-main-jays-projects-319a96dd.vercel.app/api/users/register/api/users/register';
 
   try {
     var response = await http.post(

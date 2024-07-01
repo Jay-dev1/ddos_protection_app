@@ -12,12 +12,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> registerUser(String email, String password) async {
-  // Replace 'your-vercel-project.vercel.app' with your actual Vercel project URL
-  String apiUrl = 'https://ddos-protection-3ekr9vr94-jays-projects-319a96dd.vercel.app/users/register';
+ Future<void> registerUser(String email, String password) async {
+  String apiUrl = 'https://ddos-protection-app-git-main-jays-projects-319a96dd.vercel.app/api/users/register';
 
   try {
-    // Make POST request to register user
     var response = await http.post(
       Uri.parse(apiUrl),
       headers: {
@@ -29,19 +27,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       }),
     );
 
-    // Handle response based on status code
     if (response.statusCode == 200) {
-      // Registration successful
       print('User registered successfully!');
-
-      // Example: You might handle navigation or show a success message
     } else {
-      // Handle other status codes (e.g., 401 for authentication issues)
       print('Failed to register user: ${response.statusCode}');
       print('Response body: ${response.body}');
     }
   } catch (e) {
-    // Handle network errors or exceptions
     print('Error registering user: $e');
   }
 }

@@ -1,6 +1,7 @@
 import 'package:ddos_protection_app/HomeScreen.dart';
 import 'package:ddos_protection_app/login_screen.dart';
 import 'package:ddos_protection_app/registration_screen.dart';
+import 'package:ddos_protection_app/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -16,8 +17,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginScreen(),
+        '/': (context) => WelcomeScreen(),
         '/register': (context) => RegisterScreen(),
+        '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
       },
     );

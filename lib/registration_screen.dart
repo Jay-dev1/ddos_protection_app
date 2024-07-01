@@ -12,7 +12,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _passwordController = TextEditingController();
 
   Future<void> registerUser() async {
-    String url = 'https://your-vercel-app.vercel.app/api/register'; // Replace with your Vercel serverless function URL
+    String url = 'https://ddos-protection-app-git-main-jays-projects-319a96dd.vercel.app/api/register'; // Replace with your Vercel serverless function URL
     var response = await http.post(Uri.parse(url), body: {
       'username': _usernameController.text,
       'password': _passwordController.text,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,67 +8,54 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
-  Future<void> loginUser(String email, String password) async {
-    try {
-      final url = 'https://ddos-protection-app-git-main-jays-projects-319a96dd.vercel.app/api/users/login';
-      final response = await http.post(
-        Uri.parse(url),
-        body: {
-          'email': email,
-          'password': password,
-        },
+  Future<void> loginUser() async {
+    String url = 'https://your-vercel-app.vercel.app/api/login'; // Replace with your Vercel serverless function URL
+    var response = await http.post(Uri.parse(url), body: {
+      'username': _usernameController.text,
+      'password': _passwordController.text,
+    });
+
+    if (response.statusCode == 200) {
+      // Login successful, navigate to home screen
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      // Login failed, show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed')),
       );
-
-      if (response.statusCode == 200) {
-        print('User logged in successfully');
-        // Navigate to home screen or authenticated screen
-      } else {
-        print('Failed to login: ${response.statusCode}');
-        // Handle login failure, show error message, etc.
-      }
-    } catch (e) {
-      print('Error logging in: $e');
-      // Handle network errors or other exceptions
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Login'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
+      appBar: AppBar(title: Text('Login')),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(labelText: 'Username'),
               ),
-            ),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
+              SizedBox(height: 20),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                String email = _emailController.text.trim();
-                String password = _passwordController.text.trim();
-                loginUser(email, password);
-              },
-              child: Text('Login'),
-            ),
-          ],
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: loginUser,
+                child: Text('Login'),
+              ),
+            ],
+          ),
         ),
       ),
     );

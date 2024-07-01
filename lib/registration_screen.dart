@@ -1,76 +1,61 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class RegistrationScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class _RegisterScreenState extends State<RegisterScreen> {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
- Future<void> registerUser(String email, String password) async {
-  String apiUrl = 'https://ddos-protection-app-git-main-jays-projects-319a96dd.vercel.app/api/users/register';
-
-  try {
-    var response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
-    );
+  Future<void> registerUser() async {
+    String url = 'https://your-vercel-app.vercel.app/api/register'; // Replace with your Vercel serverless function URL
+    var response = await http.post(Uri.parse(url), body: {
+      'username': _usernameController.text,
+      'password': _passwordController.text,
+    });
 
     if (response.statusCode == 200) {
-      print('User registered successfully!');
+      // Registration successful, navigate to home screen
+      Navigator.pushReplacementNamed(context, '/home');
     } else {
-      print('Failed to register user: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      // Registration failed, show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration failed')),
+      );
     }
-  } catch (e) {
-    print('Error registering user: $e');
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Registration'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: 'Email',
+      appBar: AppBar(title: Text('Register')),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(labelText: 'Username'),
               ),
-            ),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
+              SizedBox(height: 20),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                String email = _emailController.text.trim();
-                String password = _passwordController.text.trim();
-                registerUser(email, password);
-              },
-              child: Text('Register'),
-            ),
-          ],
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: registerUser,
+                child: Text('Register'),
+              ),
+            ],
+          ),
         ),
       ),
     );
